@@ -1,7 +1,7 @@
 /* Dispersona team page: VHS edition.
    Glitch idea comes from the game: the title is cut into slices that jump sideways,
    with colour-separated strips. */
-
+ 
 :root {
   --bg: #0b0709;
   --panel: #171014;
@@ -13,17 +13,17 @@
   --display: "Bebas Neue", Impact, sans-serif;
   --text: "IBM Plex Sans", system-ui, sans-serif;
 }
-
+ 
 /* running timecode in the PLAY label */
 @property --m { syntax: "<integer>"; initial-value: 0; inherits: false; }
 @property --s { syntax: "<integer>"; initial-value: 0; inherits: false; }
 @keyframes sec { from { --s: 0; } to { --s: 60; } }
 @keyframes min { from { --m: 0; } to { --m: 60; } }
-
+ 
 * { box-sizing: border-box; }
 html { color-scheme: dark; }
 ::selection { background: var(--blood); color: #fff; }
-
+ 
 body {
   margin: 0;
   min-height: 100vh;
@@ -37,11 +37,11 @@ body {
   line-height: 1.7;
   overflow-x: hidden;
 }
-
+ 
 a { color: var(--blood-soft); text-underline-offset: 4px; }
 a:hover { color: #fff; }
 a:focus-visible { outline: 2px solid var(--neon); outline-offset: 4px; }
-
+ 
 /* ---------- tape overlay ---------- */
 .noise {
   position: fixed;
@@ -78,14 +78,14 @@ body::after {                         /* worn strip at the bottom of the tape */
 }
 @keyframes roll { from { transform: translateY(-120px); } to { transform: translateY(105vh); } }
 @keyframes wear { from { background-position: 0 0; } to { background-position: 14px 0; } }
-
+ 
 /* ---------- header ---------- */
 .top {
   max-width: 76rem;
   margin: 0 auto;
   padding: 3.5rem 0 2.5rem;
 }
-
+ 
 .tape {
   display: inline-block;
   margin: 0 0 1rem;
@@ -102,44 +102,24 @@ body::after {                         /* worn strip at the bottom of the tape */
   color: var(--ink);
   animation: sec 60s steps(60) -12s infinite, min 3600s steps(60) -240s infinite;
 }
-
+ 
 .glitch {
-  position: relative;
+  display: inline-block;
   margin: 0;
+  padding: .04em .3em .02em .15em;
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(3.6rem, 13vw, 8.5rem);
-  line-height: .95;
-  color: var(--blood);
+  font-size: clamp(3.4rem, 12vw, 8rem);
+  line-height: 1;
+  color: #fff;
+  background: var(--blood);
   transform: skewX(-8deg);
   transform-origin: left;
-  text-shadow: 4px 0 rgba(61, 139, 255, .7), -4px 0 rgba(255, 255, 255, .15);
+  box-shadow: 0 0 40px rgba(196, 22, 28, .45);
 }
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-}
-.glitch::before { color: var(--neon);  text-shadow: none; animation: slice-a 7s steps(1) 1.2s infinite; }
-.glitch::after  { color: #ff3b3b;      text-shadow: none; animation: slice-b 7s steps(1) 1.2s infinite; }
-
-/* a short burst: strips jump sideways, one per step */
-@keyframes slice-a {
-  0%    { opacity: 1; transform: translateX(-34px); clip-path: inset(14% 0 70% 0); }
-  1.5%  { opacity: 1; transform: translateX(26px);  clip-path: inset(52% 0 34% 0); }
-  3%    { opacity: 1; transform: translateX(-18px); clip-path: inset(76% 0 12% 0); }
-  4.5%, 100% { opacity: 0; }
-}
-@keyframes slice-b {
-  0%    { opacity: 1; transform: translateX(22px);  clip-path: inset(36% 0 56% 0); }
-  2%    { opacity: 1; transform: translateX(-30px); clip-path: inset(60% 0 22% 0); }
-  4%, 100% { opacity: 0; }
-}
-
+ 
 .lead { max-width: 36rem; margin: 1.5rem 0 1.25rem; }
-
+ 
 .back {
   display: inline-block;
   font-size: .95rem;
@@ -148,7 +128,7 @@ body::after {                         /* worn strip at the bottom of the tape */
   transition: background-size .2s;
 }
 .back:hover { background-size: 100% 100%; color: #14080a; }
-
+ 
 /* ---------- member files: two per row ---------- */
 .files {
   max-width: 76rem;
@@ -157,7 +137,7 @@ body::after {                         /* worn strip at the bottom of the tape */
   grid-template-columns: repeat(2, 1fr);
   gap: 1.75rem;
 }
-
+ 
 .file {
   display: flex;
   gap: 1.25rem;
@@ -168,10 +148,25 @@ body::after {                         /* worn strip at the bottom of the tape */
   box-shadow: 0 8px 30px rgba(0, 0, 0, .5);
   transition: transform .25s, box-shadow .25s;
 }
-/* tilt on hover, each column the other way */
-.file:hover { transform: rotate(-1.2deg) translateY(-3px); box-shadow: 0 14px 44px rgba(0, 0, 0, .65), 0 0 40px rgba(196, 22, 28, .3); }
-.file:nth-child(even):hover { transform: rotate(1.2deg) translateY(-3px); }
-
+/* every card lifts and tilts the same way */
+.file:hover { transform: translateY(-4px) rotate(-1deg); box-shadow: 0 14px 44px rgba(0, 0, 0, .65), 0 0 40px rgba(196, 22, 28, .3); }
+ 
+/* strips of tape holding the card down */
+.file { position: relative; }
+.file::before,
+.file::after {
+  content: "";
+  position: absolute;
+  top: -.8rem;
+  width: 5rem;
+  height: 1.4rem;
+  background: rgba(225, 212, 185, .16);
+  border-left: 1px dashed rgba(255, 255, 255, .15);
+  border-right: 1px dashed rgba(255, 255, 255, .15);
+}
+.file::before { left: 1.2rem;  transform: rotate(-5deg); }
+.file::after  { right: 1.2rem; transform: rotate(4deg); }
+ 
 .portrait {
   position: relative;
   overflow: hidden;
@@ -198,7 +193,7 @@ body::after {                         /* worn strip at the bottom of the tape */
   transform: skewX(-8deg);
   text-shadow: 3px 0 rgba(255, 60, 60, .45), -3px 0 rgba(61, 139, 255, .55);
 }
-
+ 
 .body { min-width: 0; }
 .body h2 {
   margin: 0;
@@ -210,16 +205,10 @@ body::after {                         /* worn strip at the bottom of the tape */
   transform: skewX(-8deg);
   transform-origin: left;
 }
-.file:hover .body h2 { animation: jitter .3s steps(2) 1; }
-@keyframes jitter {
-  0%   { transform: skewX(-8deg) translate(-4px, 0); }
-  50%  { transform: skewX(-8deg) translate(4px, 0); }
-  100% { transform: skewX(-8deg); }
-}
-
+ 
 .what { margin: .4rem 0 .75rem; color: var(--blood-soft); font-weight: 600; font-size: 1rem; line-height: 1.4; }
 .body p { margin: 0 0 .5rem; color: #f5eeee; font-size: 1.05rem; line-height: 1.6; }
-
+ 
 .roles {
   display: flex;
   flex-wrap: wrap;
@@ -236,15 +225,15 @@ body::after {                         /* worn strip at the bottom of the tape */
   transition: background .15s, color .15s;
 }
 .roles li:hover { background: var(--blood); color: #fff; }
-
+ 
 .links { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; margin: 0; font-size: .95rem; }
-
+ 
 /* placeholder card: hover to read the hidden name */
 .empty { border-style: dashed; border-left-style: solid; opacity: .85; }
 .empty .what { color: var(--ink-dim); margin-bottom: 0; }
 .redacted { background: #000; color: #000; padding: 0 .5rem; transition: color .2s; }
 .empty:hover .redacted { color: var(--blood-soft); }
-
+ 
 footer {
   max-width: 76rem;
   margin: 3rem auto 0;
@@ -253,7 +242,7 @@ footer {
   color: var(--ink-dim);
   font-size: .9rem;
 }
-
+ 
 /* soft glitch-in on load (like the game's soft transition), then calm */
 @media (prefers-reduced-motion: no-preference) {
   .top, .file, footer { animation: glitch-in .5s steps(1) backwards; }
@@ -266,16 +255,17 @@ footer {
   60%  { opacity: .9; transform: translateX(-3px); }
   100% { opacity: 1; transform: none; }
 }
-
+ 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
-
+ 
 @media (max-width: 56rem) {
   .files { grid-template-columns: 1fr; }
-  .file:hover, .file:nth-child(even):hover { transform: none; }
+  .file:hover { transform: none; }
 }
 @media (max-width: 34rem) {
   .file { flex-direction: column; }
   .top { padding-top: 2rem; }
 }
+ 
