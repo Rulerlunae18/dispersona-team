@@ -244,6 +244,20 @@ footer {
   font-size: .9rem;
 }
 
+.portrait--photo {
+  height: auto;          /* высота по содержимому */
+  min-height: 0;
+  aspect-ratio: auto;    /* если рамка держит пропорции терминала */
+  align-self: start;     /* не растягиваться на всю высоту карточки */
+}
+
+.portrait--photo .avatar {
+  width: 100%;
+  height: auto;          /* сохраняет пропорции рисунка */
+  object-fit: contain;
+  display: block;
+}
+
 /* ---------- terminal portrait ---------- */
 .screen {
   width: 14.5rem;
