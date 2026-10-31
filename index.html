@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -26,7 +27,15 @@
          Copy everything from <article> to </article> for each new person,
          then change the name, roles, text and links. -->
     <article class="file">
-      <div class="portrait" aria-hidden="true"><span>RL</span></div>
+      <!-- Terminal portrait. Edit the two lists below, items are separated by | .
+           data-lines: what gets typed in a loop.
+           data-eggs : easter eggs, one appears on every click on the screen. -->
+      <div class="portrait screen" aria-hidden="true">
+        <pre class="eye"></pre>
+        <div class="term"
+             data-lines="lore.write()|script.write()|code.debug()|translate --lang=uk|tiktok.post()"
+             data-eggs="sudo make me a sandwich|404: motivation not found|git commit -m 'fixed' (not fixed)|ctrl+z does not work here"></div>
+      </div>
 
       <div class="body">
         <h2>Ruler Lunae</h2>
