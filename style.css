@@ -278,6 +278,20 @@ footer {
   background: #96c3ff;
   animation: blink 1s steps(1) infinite;
 }
+
+.portrait.photo {
+  align-self: start;   /* не растягиваться по высоте карточки */
+  height: auto;        /* перебить фиксированную высоту */
+  min-height: 0;
+  aspect-ratio: auto;  /* если у .portrait задан aspect-ratio */
+}
+
+.portrait.photo .avatar {
+  width: 100%;
+  height: auto;        /* сохраняет пропорции рисунка */
+  display: block;
+}
+
 @keyframes blink { 50% { opacity: 0; } }
 
 /* soft glitch-in on load (like the game's soft transition), then calm */
