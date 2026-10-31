@@ -246,7 +246,7 @@ footer {
 
 /* ---------- terminal portrait ---------- */
 .screen {
-  width: 13.5rem;
+  width: 14.5rem;
   height: auto;
   min-height: 16rem;
   display: flex;
@@ -257,15 +257,14 @@ footer {
   cursor: help;
 }
 .screen > * { position: relative; }
-.eye {
+.pet {
   margin: 0 0 .6rem;
   font: inherit;
-  font-size: 12px;
-  line-height: 1.1;
-  text-align: center;
+  font-size: 8px;
+  line-height: 1;
   white-space: pre;
   color: #96c3ff;
-  text-shadow: 2px 0 rgba(255, 60, 60, .4), -2px 0 rgba(61, 139, 255, .5);
+  text-shadow: 2px 0 rgba(255, 60, 60, .35), -2px 0 rgba(61, 139, 255, .45);
 }
 .term { font-size: 12px; line-height: 1.5; color: #cfe3ff; }
 .term > div { overflow-wrap: anywhere; }
