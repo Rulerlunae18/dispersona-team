@@ -12,6 +12,10 @@
   --neon: #3d8bff;
   --display: "Bebas Neue", Impact, sans-serif;
   --text: "IBM Plex Sans", system-ui, sans-serif;
+
+  /* one size for the terminal and the photo portrait */
+  --portrait-w: 14.5rem;
+  --portrait-h: 19rem;
 }
 
 /* running timecode in the PLAY label */
@@ -195,6 +199,24 @@ body::after {                         /* worn strip at the bottom of the tape */
   text-shadow: 3px 0 rgba(255, 60, 60, .45), -3px 0 rgba(61, 139, 255, .55);
 }
 
+/* ---------- photo portrait: same size as the terminal ---------- */
+.portrait--photo {
+  width: var(--portrait-w);
+  height: var(--portrait-h);
+  align-self: start;
+  padding: 0;
+  display: block;
+}
+.portrait--photo::before { display: none; }   /* remove scanlines over the art if you like them, delete this line */
+
+.portrait--photo .avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;              /* fills the frame, extra edges are cropped */
+  object-position: center top;    /* which part of the art to keep */
+  display: block;
+}
+
 .body { min-width: 0; }
 .body h2 {
   margin: 0;
@@ -244,25 +266,11 @@ footer {
   font-size: .9rem;
 }
 
-.portrait--photo {
-  height: auto;          /* высота по содержимому */
-  min-height: 0;
-  aspect-ratio: auto;    /* если рамка держит пропорции терминала */
-  align-self: start;     /* не растягиваться на всю высоту карточки */
-}
-
-.portrait--photo .avatar {
-  width: 100%;
-  height: auto;          /* сохраняет пропорции рисунка */
-  object-fit: contain;
-  display: block;
-}
-
 /* ---------- terminal portrait ---------- */
 .screen {
-  width: 14.5rem;
-  height: auto;
-  min-height: 16rem;
+  width: var(--portrait-w);
+  height: var(--portrait-h);      /* same as the photo portrait */
+  align-self: start;              /* don't stretch to the text column */
   display: flex;
   flex-direction: column;
   place-items: initial;
@@ -318,6 +326,7 @@ footer {
 }
 @media (max-width: 34rem) {
   .file { flex-direction: column; }
-  .screen { width: 100%; }
+  .screen,
+  .portrait--photo { width: 100%; }
   .top { padding-top: 2rem; }
 }
