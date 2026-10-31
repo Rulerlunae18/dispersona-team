@@ -186,7 +186,7 @@ body::after {                         /* worn strip at the bottom of the tape */
   inset: 0;
   background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .3) 0 1px, transparent 1px 3px);
 }
-.portrait span {
+.portrait > span {
   position: relative;
   font-family: var(--display);
   font-size: 3.2rem;
@@ -244,6 +244,43 @@ footer {
   font-size: .9rem;
 }
 
+/* ---------- terminal portrait ---------- */
+.screen {
+  width: 13.5rem;
+  height: auto;
+  min-height: 16rem;
+  display: flex;
+  flex-direction: column;
+  place-items: initial;
+  padding: .7rem .6rem;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  cursor: help;
+}
+.screen > * { position: relative; }
+.eye {
+  margin: 0 0 .6rem;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.1;
+  text-align: center;
+  white-space: pre;
+  color: #96c3ff;
+  text-shadow: 2px 0 rgba(255, 60, 60, .4), -2px 0 rgba(61, 139, 255, .5);
+}
+.term { font-size: 12px; line-height: 1.5; color: #cfe3ff; }
+.term > div { overflow-wrap: anywhere; }
+.term .egg { color: var(--blood-soft); }
+.cur {
+  display: inline-block;
+  width: .55em;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -.15em;
+  background: #96c3ff;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
 /* soft glitch-in on load (like the game's soft transition), then calm */
 @media (prefers-reduced-motion: no-preference) {
   .top, .file, footer { animation: glitch-in .5s steps(1) backwards; }
@@ -267,5 +304,6 @@ footer {
 }
 @media (max-width: 34rem) {
   .file { flex-direction: column; }
+  .screen { width: 100%; }
   .top { padding-top: 2rem; }
 }
