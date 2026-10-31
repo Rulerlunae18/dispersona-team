@@ -1,54 +1,39 @@
+// Terminal portrait: a blinking ASCII hamster + typed "commands" + click easter eggs.
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const W = 21;
-  const pad = (s) => {
-    const n = Math.max(0, W - s.length), l = n >> 1;
-    return ' '.repeat(l) + s + ' '.repeat(n - l);
-  };
- 
-  // ----- the eye -----
-  const open = (px) => {                 // px: -1 left, 0 centre, 1 right
-    const L = 7 + px * 3, R = 14 - L;
-    return [
-      '.-"""""-.',
-      '.-"         "-.',
-      '(' + ' '.repeat(L) + '(@)' + ' '.repeat(R) + ')',
-      '"-.         .-"',
-      '"-.....-"'
-    ].map(pad).join('\n');
-  };
-  const shut = () => ['', '', '(' + '_'.repeat(17) + ')', '', ''].map(pad).join('\n');
- 
-  function runEye(pre) {
-    pre.textContent = open(0);
+  // ----- the hamster (ASCII frames made from the meme image) -----
+  const OPEN = ["                :-=-----", "               *=:.....:++", "            :=#*==-      .+==:", "       .=###*%%##+**#= =##%@@@%#*+%%", "      =@%:.+%%@+%@#.=*.%=:%@%@##=@@#.", "       =@-:@*%%@@@%%#@%@+#%@@@@*:@*", "        *%:*-#%%%#==@#=@*+%@@@%%%@-", "        .%@=  .:. :##  +@=:++=.:@#", "        -*+#*===+*#+:.  =#%%#**%**:", "       =*   :---:.:---       ... .*.", "     .*=         -+----           :*", "    =+:           -+-+-            -+", "  .*: +:                          +==+", " :*:   :  .=-                .== .-  -*", "=+         .-+=           .:=+-       -*", "=             -#+=-::::-====:          +-", "                :-=++++=-:             .#.", "                                        .*"].join('\n');
+  const SHUT = ["                :-=-----", "               *=:.....:++", "            :=#*==-      .+==:", "       .=###*#=---**#= =##%@@@%#*+%%", "      =@%:.++       =*.%=:+:  .==@@#.", "       =@-:@%#: .=%%#@%@+#=    :-@*", "        *%:*:+###*:=@#=@*+#%+=*%@@-", "        .%@=      :##  +@=.-==-:@#", "        -*+#*===+*#+:.  =#%%#**%**:", "       =*   :---:.:---       ... .*.", "     .*=         -+----           :*", "    =+:           -+-+-            -+", "  .*: +:                          +==+", " :*:   :  .=-                .== .-  -*", "=+         .-+=           .:=+-       -*", "=             -#+=-::::-====:          +-", "                :-=++++=-:             .#.", "                                        .*"].join('\n');
+
+  function runPet(pre) {
+    pre.textContent = OPEN;
     if (reduce) return;
-    const tick = () => {
-      const r = Math.random();
-      if (r < 0.6) {                      // blink
-        pre.textContent = shut();
-        setTimeout(() => { pre.textContent = open(0); }, 140);
-      } else {                            // look aside
-        pre.textContent = open(r < 0.8 ? -1 : 1);
-        setTimeout(() => { pre.textContent = open(0); }, 900);
-      }
-      setTimeout(tick, 2200 + Math.random() * 3000);
+    const blink = (done) => {
+      pre.textContent = SHUT;
+      setTimeout(() => { pre.textContent = OPEN; if (done) done(); }, 150);
     };
-    setTimeout(tick, 1800);
+    const tick = () => {
+      blink(() => {
+        if (Math.random() < 0.3) setTimeout(blink, 180);   // sometimes a double blink
+      });
+      setTimeout(tick, 2000 + Math.random() * 3500);
+    };
+    setTimeout(tick, 1500);
   }
- 
+
   // ----- the terminal -----
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
- 
+
   function runTerm(box) {
     const list = (s) => (s || '').split('|').map((x) => x.trim()).filter(Boolean);
     const lines = list(box.dataset.lines);
     const eggs = list(box.dataset.eggs);
     const MAX = 6;
     let eggI = 0;
- 
+
     const cur = document.createElement('span');
     cur.className = 'cur';
- 
+
     const row = (cls) => {
       const d = document.createElement('div');
       const t = document.createElement('span');
@@ -58,7 +43,7 @@
       while (box.children.length > MAX) box.firstChild.remove();
       return t;
     };
- 
+
     const type = (el, text) => new Promise((res) => {
       if (reduce) { el.textContent = text; return res(); }
       let i = 0;
@@ -68,7 +53,7 @@
       };
       step();
     });
- 
+
     (async () => {
       for (;;) {
         box.textContent = '';
@@ -80,7 +65,7 @@
         await sleep(4000);
       }
     })();
- 
+
     // click the screen to find an easter egg
     const screen = box.closest('.screen') || box;
     screen.addEventListener('click', () => {
@@ -88,8 +73,7 @@
       row('egg').textContent = eggs[eggI++ % eggs.length];
     });
   }
- 
-  document.querySelectorAll('.eye').forEach(runEye);
+
+  document.querySelectorAll('.pet').forEach(runPet);
   document.querySelectorAll('.term').forEach(runTerm);
 })();
- 
